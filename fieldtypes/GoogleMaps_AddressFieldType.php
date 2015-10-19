@@ -16,9 +16,9 @@ class GoogleMaps_AddressFieldType extends BaseFieldType
     }
 
     public function onAfterElementSave()
-    {  
+    {
         $handle = $this->model->handle;
-        
+
         $data = $this->element->$handle;
 
         $location = GoogleMaps_LocationRecord::model()->findByPk($data->locationId ?: 0);
@@ -48,7 +48,7 @@ class GoogleMaps_AddressFieldType extends BaseFieldType
     }
 
     public function prepValue($value)
-    {   
+    {
         if(is_string($value))
         {
             $value = json_decode($value);
@@ -58,12 +58,12 @@ class GoogleMaps_AddressFieldType extends BaseFieldType
     }
 
     public function getInputHtml($name, $value)
-    { 
+    {
         $id = craft()->templates->formatInputId($name);
 
         // Figure out what that ID is going to look like once it has been namespaced
         $namespacedId = craft()->templates->namespaceInputId($id);
-        
+
         craft()->templates->includeJsResource('googlemaps/js/app.compiled.js');
         craft()->templates->includeCssResource('googlemaps/css/app.css');
         craft()->templates->includeJsFile('//maps.googleapis.com/maps/api/js?key=&sensor=false&callback=GoogleMaps.init');
@@ -89,8 +89,10 @@ class GoogleMaps_AddressFieldType extends BaseFieldType
 
     public function validate($value)
     {
-        $model = $this->prepValue($value);
-
-        return $model->validate() ?: $model->getAllErrors();
+      return true;
+        //
+        // $model = $this->prepValue($value);
+        //
+        // return $model->validate() ?: $model->getAllErrors();
     }
 }
